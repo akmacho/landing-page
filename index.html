@@ -97,12 +97,7 @@
 
     <nav class="w-full bg-dark-900/90 backdrop-blur-md sticky top-0 z-50 border-b border-white/10">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div class="flex justify-between items-center h-20">
-                <div class="flex-shrink-0 flex items-center">
-                    <a href="index.html" class="font-heading text-2xl font-extrabold text-white tracking-tight hover:opacity-80 transition-opacity">
-                        Snack<span class="text-brand-500">Point</span>
-                    </a>
-                </div>
+            <div class="flex justify-end items-center h-20">
                 <div>
                     <button onclick="mostrarModal()" class="flex items-center gap-2 text-sm font-medium text-slate-400 hover:text-white transition-colors">
                         <i data-lucide="menu" class="w-4 h-4"></i>
@@ -224,17 +219,8 @@
         </div>
     </main>
 
-    <footer class="bg-dark-900 py-8 border-t border-white/5 mt-auto">
-        <div class="max-w-7xl mx-auto px-4 text-center">
-            <p class="text-slate-500 text-sm font-medium">
-                &copy; <span id="year"></span> Snack Point. Todos los derechos reservados.
-            </p>
-        </div>
-    </footer>
-
     <script>
         lucide.createIcons();
-        document.getElementById('year').textContent = new Date().getFullYear();
 
         // Lógica para manejar el Modal y los formularios
         function seleccionarOpcion(opcion) {
