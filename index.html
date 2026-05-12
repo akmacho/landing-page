@@ -1,0 +1,280 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Snack Point | Atención al Cliente</title>
+    
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;700;800&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+    
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['Plus Jakarta Sans', 'sans-serif'],
+                        heading: ['Outfit', 'sans-serif'],
+                    },
+                    colors: {
+                        brand: {
+                            50: '#fff7ed',
+                            100: '#ffedd5',
+                            500: '#f97316', 
+                            600: '#ea580c',
+                            900: '#7c2d12',
+                        },
+                        dark: {
+                            800: '#1e293b', 
+                            900: '#0f172a', 
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+
+    <script src="https://unpkg.com/lucide@latest"></script>
+
+    <style>
+        .bg-pattern {
+            background-color: #0f172a;
+            background-image: radial-gradient(#1e293b 1px, transparent 1px);
+            background-size: 24px 24px;
+        }
+        .glass-card {
+            background: rgba(255, 255, 255, 0.03);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        
+        /* Animación suave para el popup */
+        .modal-enter {
+            animation: modalFadeIn 0.4s ease-out forwards;
+        }
+        @keyframes modalFadeIn {
+            from { opacity: 0; transform: scale(0.95) translateY(10px); }
+            to { opacity: 1; transform: scale(1) translateY(0); }
+        }
+    </style>
+</head>
+<body class="font-sans text-slate-300 antialiased bg-dark-900 bg-pattern min-h-screen flex flex-col selection:bg-brand-500/30 selection:text-brand-100">
+
+    <div id="welcomeModal" class="fixed inset-0 z-[100] flex items-center justify-center bg-dark-900/80 backdrop-blur-md p-4 transition-opacity duration-300">
+        <div class="glass-card rounded-3xl p-8 max-w-sm w-full border border-white/10 shadow-2xl relative overflow-hidden modal-enter">
+            <div class="absolute -top-20 -right-20 w-40 h-40 bg-brand-500/20 rounded-full blur-3xl pointer-events-none"></div>
+            
+            <div class="text-center relative z-10 mb-8">
+                <div class="w-16 h-16 bg-dark-800 rounded-2xl flex items-center justify-center text-brand-500 mx-auto mb-4 border border-white/5 shadow-inner">
+                    <i data-lucide="smartphone" class="w-8 h-8"></i>
+                </div>
+                <h2 class="font-heading text-2xl font-bold text-white mb-2">¡Hola!</h2>
+                <p class="text-slate-400 text-sm font-medium">¿En qué podemos ayudarte hoy con esta máquina?</p>
+            </div>
+
+            <div class="space-y-4 relative z-10">
+                <button onclick="seleccionarOpcion('sugerir')" class="w-full bg-brand-500 hover:bg-brand-600 text-white py-4 px-6 rounded-xl font-bold flex items-center justify-between transition-all shadow-lg shadow-brand-500/25 hover:shadow-brand-500/40 group">
+                    <div class="flex items-center gap-3">
+                        <i data-lucide="lightbulb" class="w-5 h-5"></i>
+                        <span>Sugerir un Producto</span>
+                    </div>
+                    <i data-lucide="chevron-right" class="w-5 h-5 text-brand-200 group-hover:translate-x-1 transition-transform"></i>
+                </button>
+
+                <button onclick="seleccionarOpcion('reportar')" class="w-full bg-dark-800 border border-slate-700 hover:border-red-500 hover:bg-red-500/10 text-slate-200 py-4 px-6 rounded-xl font-bold flex items-center justify-between transition-all group">
+                    <div class="flex items-center gap-3">
+                        <i data-lucide="alert-triangle" class="w-5 h-5 text-red-400 group-hover:text-red-500"></i>
+                        <span>Reportar un Problema</span>
+                    </div>
+                    <i data-lucide="chevron-right" class="w-5 h-5 text-slate-500 group-hover:text-red-400 group-hover:translate-x-1 transition-transform"></i>
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <nav class="w-full bg-dark-900/90 backdrop-blur-md sticky top-0 z-50 border-b border-white/10">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between items-center h-20">
+                <div class="flex-shrink-0 flex items-center">
+                    <a href="index.html" class="font-heading text-2xl font-extrabold text-white tracking-tight hover:opacity-80 transition-opacity">
+                        Snack<span class="text-brand-500">Point</span>
+                    </a>
+                </div>
+                <div>
+                    <button onclick="mostrarModal()" class="flex items-center gap-2 text-sm font-medium text-slate-400 hover:text-white transition-colors">
+                        <i data-lucide="menu" class="w-4 h-4"></i>
+                        Opciones
+                    </button>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <main id="mainContent" class="flex-grow py-12 lg:py-24 relative hidden">
+        <div class="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8">
+            
+            <div class="text-center mb-12">
+                <div id="headerIcon" class="w-16 h-16 bg-brand-500/10 rounded-2xl flex items-center justify-center text-brand-500 mx-auto mb-6 border border-brand-500/20">
+                    <i data-lucide="lightbulb" class="w-8 h-8"></i>
+                </div>
+                <h1 id="headerTitle" class="font-heading text-4xl md:text-5xl font-bold text-white mb-4">Título</h1>
+                <p id="headerSubtitle" class="text-slate-400 text-lg font-medium">Subtítulo</p>
+            </div>
+
+            <div class="glass-card rounded-3xl p-6 md:p-10 border border-white/10 shadow-2xl relative overflow-hidden">
+                <div class="absolute -top-20 -right-20 w-64 h-64 bg-brand-500/10 rounded-full blur-3xl pointer-events-none"></div>
+
+                <form id="formSugerir" static-form class="space-y-6 relative z-10 hidden" onsubmit="event.preventDefault(); alert('¡Sugerencia recibida! Gracias por ayudarnos a mejorar.');">
+                    <div>
+                        <label class="block text-slate-300 font-medium text-sm mb-2">Tu Nombre (Opcional)</label>
+                        <input type="text" name="field0" placeholder="¿Cómo te llamas?" class="w-full bg-dark-900 border border-slate-700 rounded-xl px-4 py-3.5 text-white placeholder:text-slate-600 focus:outline-none focus:border-brand-500 focus:ring-1 focus:ring-brand-500 transition-all">
+                    </div>
+
+                    <div>
+                        <label class="block text-slate-300 font-medium text-sm mb-2">Ubicación de la Máquina *</label>
+                        <div class="relative">
+                            <select name="field1" required class="w-full bg-dark-900 border border-slate-700 rounded-xl px-4 py-3.5 text-white focus:outline-none focus:border-brand-500 focus:ring-1 focus:ring-brand-500 transition-all appearance-none cursor-pointer">
+                                <option value="" disabled selected>Selecciona una ubicación</option>
+                                <option value="Ibero Farmacos">Ibero Farmacos</option>
+                            </select>
+                            <div class="pointer-events-none absolute inset-y-0 right-0 flex items-center px-4 text-slate-400">
+                                <i data-lucide="chevron-down" class="w-4 h-4"></i>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div>
+                        <label class="block text-slate-300 font-medium text-sm mb-2">Producto Sugerido *</label>
+                        <input type="text" name="field2" required placeholder="Ej: Red Bull, Snickers, Agua Mineral..." class="w-full bg-dark-900 border border-slate-700 rounded-xl px-4 py-3.5 text-white placeholder:text-slate-600 focus:outline-none focus:border-brand-500 focus:ring-1 focus:ring-brand-500 transition-all">
+                    </div>
+
+                    <div>
+                        <label class="block text-slate-300 font-medium text-sm mb-2">Comentarios (Opcional)</label>
+                        <textarea name="field3" rows="3" placeholder="¿Algún sabor en específico? ¿Qué te parece el servicio?" class="w-full bg-dark-900 border border-slate-700 rounded-xl px-4 py-3.5 text-white placeholder:text-slate-600 focus:outline-none focus:border-brand-500 focus:ring-1 focus:ring-brand-500 transition-all resize-none"></textarea>
+                    </div>
+
+                    <button type="submit" class="w-full bg-brand-500 hover:bg-brand-600 text-white py-4 rounded-xl font-bold flex items-center justify-center gap-2 transition-all shadow-lg shadow-brand-500/25 mt-4">
+                        Enviar Sugerencia
+                        <i data-lucide="send" class="w-4 h-4"></i>
+                    </button>
+                </form>
+
+                <form id="formReportar" static-form class="space-y-6 relative z-10 hidden" onsubmit="event.preventDefault(); alert('Reporte enviado. Nuestro equipo técnico lo revisará cuanto antes.');">
+                    <div>
+                        <label class="block text-slate-300 font-medium text-sm mb-2">Ubicación de la Máquina *</label>
+                        <div class="relative">
+                            <select name="field0" required class="w-full bg-dark-900 border border-slate-700 rounded-xl px-4 py-3.5 text-white focus:outline-none focus:border-red-500 focus:ring-1 focus:ring-red-500 transition-all appearance-none cursor-pointer">
+                                <option value="" disabled selected>Selecciona una ubicación</option>
+                                <option value="Ibero Farmacos">Ibero Farmacos</option>
+                            </select>
+                            <div class="pointer-events-none absolute inset-y-0 right-0 flex items-center px-4 text-slate-400">
+                                <i data-lucide="chevron-down" class="w-4 h-4"></i>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div>
+                        <label class="block text-slate-300 font-medium text-sm mb-2">Tipo de Problema *</label>
+                        <div class="relative">
+                            <select name="field1" required class="w-full bg-dark-900 border border-slate-700 rounded-xl px-4 py-3.5 text-white focus:outline-none focus:border-red-500 focus:ring-1 focus:ring-red-500 transition-all appearance-none cursor-pointer">
+                                <option value="" disabled selected>Selecciona el problema</option>
+                                <option value="Producto atascado">Producto atascado y no cayó</option>
+                                <option value="Máquina cobró pero no dio producto">La máquina me cobró pero no dio el producto</option>
+                                <option value="Máquina apagada o pantalla congelada">Máquina apagada o pantalla congelada</option>
+                                <option value="Lector de tarjetas no funciona">Lector de tarjetas no funciona</option>
+                                <option value="Otro">Otro problema técnico</option>
+                            </select>
+                            <div class="pointer-events-none absolute inset-y-0 right-0 flex items-center px-4 text-slate-400">
+                                <i data-lucide="chevron-down" class="w-4 h-4"></i>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div>
+                        <label class="block text-slate-300 font-medium text-sm mb-2">Correo Electrónico</label>
+                        <input type="email" name="field2" placeholder="Ej: tu@email.com" class="w-full bg-dark-900 border border-slate-700 rounded-xl px-4 py-3.5 text-white placeholder:text-slate-600 focus:outline-none focus:border-red-500 focus:ring-1 focus:ring-red-500 transition-all">
+                    </div>
+                    
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-5">
+                        <div>
+                            <label class="block text-slate-300 font-medium text-sm mb-2">Teléfono</label>
+                            <input type="tel" name="field3" placeholder="Ej: 809-000-0000" class="w-full bg-dark-900 border border-slate-700 rounded-xl px-4 py-3.5 text-white placeholder:text-slate-600 focus:outline-none focus:border-red-500 focus:ring-1 focus:ring-red-500 transition-all">
+                        </div>
+                        <div>
+                            <label class="block text-slate-300 font-medium text-sm mb-2">Nº del Producto (Ej: A4, C2)</label>
+                            <input type="text" name="field4" placeholder="Casilla del snack" class="w-full bg-dark-900 border border-slate-700 rounded-xl px-4 py-3.5 text-white placeholder:text-slate-600 focus:outline-none focus:border-red-500 focus:ring-1 focus:ring-red-500 transition-all">
+                        </div>
+                    </div>
+
+                    <div>
+                        <label class="block text-slate-300 font-medium text-sm mb-2">Detalles Adicionales</label>
+                        <textarea name="field5" rows="3" placeholder="Describe brevemente qué sucedió..." class="w-full bg-dark-900 border border-slate-700 rounded-xl px-4 py-3.5 text-white placeholder:text-slate-600 focus:outline-none focus:border-red-500 focus:ring-1 focus:ring-red-500 transition-all resize-none"></textarea>
+                    </div>
+
+                    <button type="submit" class="w-full bg-red-500 hover:bg-red-600 text-white py-4 rounded-xl font-bold flex items-center justify-center gap-2 transition-all shadow-lg shadow-red-500/25 mt-4">
+                        Enviar Reporte Técnico
+                        <i data-lucide="alert-circle" class="w-4 h-4"></i>
+                    </button>
+                </form>
+
+            </div>
+        </div>
+    </main>
+
+    <footer class="bg-dark-900 py-8 border-t border-white/5 mt-auto">
+        <div class="max-w-7xl mx-auto px-4 text-center">
+            <p class="text-slate-500 text-sm font-medium">
+                &copy; <span id="year"></span> Snack Point. Todos los derechos reservados.
+            </p>
+        </div>
+    </footer>
+
+    <script>
+        lucide.createIcons();
+        document.getElementById('year').textContent = new Date().getFullYear();
+
+        // Lógica para manejar el Modal y los formularios
+        function seleccionarOpcion(opcion) {
+            // Ocultar Modal
+            document.getElementById('welcomeModal').style.opacity = '0';
+            setTimeout(() => {
+                document.getElementById('welcomeModal').classList.add('hidden');
+                document.getElementById('mainContent').classList.remove('hidden');
+            }, 300);
+
+            // Cambiar textos y formularios según la opción
+            if(opcion === 'sugerir') {
+                document.getElementById('headerTitle').innerText = "Pide tu Snack o Bebida Favorita";
+                document.getElementById('headerSubtitle').innerText = "¿No encuentras lo que buscas? ¡Dinos qué te gustaría ver!";
+                document.getElementById('headerIcon').innerHTML = '<i data-lucide="lightbulb" class="w-8 h-8"></i>';
+                document.getElementById('headerIcon').className = "w-16 h-16 bg-brand-500/10 rounded-2xl flex items-center justify-center text-brand-500 mx-auto mb-6 border border-brand-500/20";
+                
+                document.getElementById('formSugerir').classList.remove('hidden');
+                document.getElementById('formReportar').classList.add('hidden');
+            } else if (opcion === 'reportar') {
+                document.getElementById('headerTitle').innerText = "Reportar un Problema";
+                document.getElementById('headerSubtitle').innerText = "Lamentamos el inconveniente. Cuéntanos qué pasó para solucionarlo.";
+                document.getElementById('headerIcon').innerHTML = '<i data-lucide="wrench" class="w-8 h-8"></i>';
+                document.getElementById('headerIcon').className = "w-16 h-16 bg-red-500/10 rounded-2xl flex items-center justify-center text-red-500 mx-auto mb-6 border border-red-500/20";
+                
+                document.getElementById('formReportar').classList.remove('hidden');
+                document.getElementById('formSugerir').classList.add('hidden');
+            }
+            
+            // Re-renderizar iconos por si cambiaron dinámicamente
+            lucide.createIcons();
+        }
+
+        function mostrarModal() {
+            document.getElementById('mainContent').classList.add('hidden');
+            document.getElementById('welcomeModal').classList.remove('hidden');
+            setTimeout(() => {
+                document.getElementById('welcomeModal').style.opacity = '1';
+            }, 10);
+        }
+    </script>
+</body>
+</html>
