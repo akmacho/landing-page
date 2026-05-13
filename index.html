@@ -186,7 +186,6 @@
                     method="POST"
                     class="space-y-6 relative z-10 hidden">
 
-                    <!-- STATIC FORMS -->
                     <input type="hidden" name="accessKey" value="sf_506e809764a8ae1989032744">
                     <input type="hidden" name="subject" value="Nueva sugerencia Snack Point">
 
@@ -282,7 +281,6 @@
                     method="POST"
                     class="space-y-6 relative z-10 hidden">
 
-                    <!-- STATIC FORMS -->
                     <input type="hidden" name="accessKey" value="sf_506e809764a8ae1989032744">
                     <input type="hidden" name="subject" value="Nuevo reporte Snack Point">
 
@@ -360,6 +358,21 @@
                             </div>
 
                         </div>
+                    </div>
+
+                    <div>
+
+                        <label class="block text-slate-300 font-medium text-sm mb-2">
+                            Nombre Completo *
+                        </label>
+
+                        <input
+                            type="text"
+                            name="nombre"
+                            required
+                            placeholder="Ej: Juan Pérez"
+                            class="w-full bg-dark-900 border border-slate-700 rounded-xl px-4 py-3.5 text-white placeholder:text-slate-600 focus:outline-none focus:border-red-500 focus:ring-1 focus:ring-red-500 transition-all">
+
                     </div>
 
                     <div>
@@ -465,9 +478,6 @@
                 document.getElementById('headerIcon').innerHTML =
                     '<i data-lucide="lightbulb" class="w-8 h-8"></i>';
 
-                document.getElementById('headerIcon').className =
-                    "w-16 h-16 bg-brand-500/10 rounded-2xl flex items-center justify-center text-brand-500 mx-auto mb-6 border border-brand-500/20";
-
                 document.getElementById('formSugerir').classList.remove('hidden');
 
                 document.getElementById('formReportar').classList.add('hidden');
@@ -484,9 +494,6 @@
 
                 document.getElementById('headerIcon').innerHTML =
                     '<i data-lucide="wrench" class="w-8 h-8"></i>';
-
-                document.getElementById('headerIcon').className =
-                    "w-16 h-16 bg-red-500/10 rounded-2xl flex items-center justify-center text-red-500 mx-auto mb-6 border border-red-500/20";
 
                 document.getElementById('formReportar').classList.remove('hidden');
 
